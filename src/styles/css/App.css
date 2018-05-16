@@ -1,0 +1,167 @@
+.col-lg-1,
+.col-lg-11,
+.col-lg-12,
+ul {
+  padding: 0; }
+
+.row,
+p {
+  margin: 0; }
+
+ul {
+  list-style-type: none; }
+
+.hero_name {
+  color: #232323;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.87px;
+  line-height: 29px; }
+
+.hero .productDetails .container .hero_header span {
+  margin: 0px 15px 0px 0px; }
+
+.hero .productDetails .container .hero_header .fa {
+  color: #504dd4;
+  font-size: 120%;
+  margin: 0px 5px; }
+
+.rectangle {
+  height: 48px;
+  width: 48px;
+  background-color: #504dd4;
+  box-shadow: 0 4px 16px 0 rgba(87, 89, 159, 0.05); }
+
+.container {
+  margin: 0px 0px; }
+
+.header {
+  width: 100%;
+  height: 48px;
+  background: #fff;
+  position: absolute;
+  top: 0;
+  display: flex; }
+  .header .header_bar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    padding: 15px; }
+    .header .header_bar .header_logo img {
+      width: 64px; }
+    .header .header_bar .header_info {
+      display: flex;
+      justify-content: space-between;
+      width: 189px;
+      margin-right: 20px; }
+      .header .header_bar .header_info .fa {
+        font-size: 120%;
+        color: #91a1df; }
+      .header .header_bar .header_info .username span {
+        color: #91a1df;
+        font-family: "Montserrat", sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 18px;
+        text-align: right; }
+      .header .header_bar .header_info .profile_icon {
+        border-radius: 50%;
+        background: url("../img/profile.jpg");
+        border-radius: 50%;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        width: 24px;
+        height: 24px; }
+
+.navigation {
+  background: #fff;
+  width: 48px;
+  height: 100%;
+  position: fixed;
+  left: 0; }
+  .navigation .fa {
+    color: #91a1df;
+    font-size: 140%; }
+  .navigation nav .nav_down {
+    position: fixed;
+    bottom: 12px; }
+  .navigation nav li {
+    list-style-type: none;
+    margin: 18px 14px 0px 14px; }
+
+.hero {
+  position: fixed;
+  top: 48px;
+  left: 48px;
+  background: #f6f7fc;
+  width: 100%;
+  height: 100%; }
+  .hero .home .hero_wrapper {
+    margin-top: 25px; }
+    .hero .home .hero_wrapper .box {
+      margin-bottom: 25px;
+      box-sizing: border-box;
+      height: 145px;
+      width: 145px;
+      border: 1px solid rgba(151, 151, 151, 0.1);
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      transition: all 0.5s ease; }
+      .hero .home .hero_wrapper .box .box_content {
+        text-align: center; }
+        .hero .home .hero_wrapper .box .box_content .p {
+          color: #232323;
+          font-family: "Montserrat", sans-serif;
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.01px;
+          line-height: 15px;
+          text-align: center; }
+        .hero .home .hero_wrapper .box .box_content .fa {
+          font-size: 250%; }
+        .hero .home .hero_wrapper .box .box_content .plus {
+          font-size: 230%;
+          color: #504dd4; }
+      .hero .home .hero_wrapper .box:hover {
+        cursor: pointer;
+        box-shadow: 1px 1px 13px #000; }
+
+.productDetails {
+  margin-top: 20px; }
+  .productDetails th {
+    color: rgba(56, 56, 56, 0.4);
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px; }
+  .productDetails .tableCalc {
+    margin-top: 20px; }
+  .productDetails td {
+    padding: 14px 16px; }
+  .productDetails td {
+    color: #232323;
+    font-family: Montserrat;
+    font-size: 14px;
+    line-height: 20px; }
+  .productDetails .trData {
+    background: #fff; }
+  .productDetails table {
+    width: 100%; }
+  .productDetails .taright {
+    text-align: right; }
+  .productDetails .btnConfiguration {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0px; }
+    .productDetails .btnConfiguration .buttons {
+      display: flex; }
+      .productDetails .btnConfiguration .buttons .dataPicker {
+        margin-right: 20px; }
+
+/*# sourceMappingURL=App.css.map */
