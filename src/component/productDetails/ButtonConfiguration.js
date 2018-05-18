@@ -19,7 +19,7 @@ const ButtonConfiguration = () => {
                 <button>05/02/2018 -> 20/02/2018</button>
               </div>
               <div className="createReport">
-                <button>Create Report</button>
+                <button onClick={context.handleReport}>Create Report</button>
               </div>
             </div>
           </div>
