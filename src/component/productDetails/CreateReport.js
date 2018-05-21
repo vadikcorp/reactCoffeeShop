@@ -5,16 +5,35 @@ class CreateReport extends React.Component {
     super(props);
     this.state = {
       items: [],
-      // itemsState: [],
-      // itemsCity: [],
-      // itemsEmail: [],
-      focused: false,
-      input: ""
+      input: "",
+      tableData: this.props.tableData,
+      isButtonActive: [
+        { name: "Name", isActive: false },
+        { name: "Max Price", isActive: false },
+        { name: "Average Price", isActive: false },
+        { name: "Min Price", isActive: false }
+      ],
+      emailInputStatus: false,
+      emailItems: [],
+      emailInput: "",
+
+      stateItems: [],
+      stateInput: ""
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
     this.handleRemoveItem = this.handleRemoveItem.bind(this);
+
+    this.onActiveclassName = this.onActiveclassName.bind(this);
+    this.emailInputStatus = this.emailInputStatus.bind(this);
+    this.handleEmailInputChange = this.handleEmailInputChange.bind(this);
+    this.handleEmailInputKeyDown = this.handleEmailInputKeyDown.bind(this);
+    this.handleRemoveEmailItem = this.handleRemoveEmailItem.bind(this);
+
+    this.handleStateInputChange = this.handleStateInputChange.bind(this);
+    this.handleStateInputKeyDown = this.handleStateInputKeyDown.bind(this);
+    this.handleRemoveStateItem = this.handleRemoveStateItem.bind(this);
   }
 
   handleInputChange(evt) {
@@ -50,123 +69,235 @@ class CreateReport extends React.Component {
     };
   }
 
-  sendReport() {
-    console.log("Report send");
+  emailInputStatus() {
+    this.setState({
+      emailInputStatus: !this.state.emailInputStatus
+    });
   }
+
+  handleEmailInputChange(evt) {
+    this.setState({ emailInput: evt.target.value });
+  }
+
+  handleEmailInputKeyDown(evt) {
+    if (evt.keyCode === 13) {
+      const { value } = evt.target;
+
+      this.setState(state => ({
+        emailItems: [...state.emailItems, value],
+        emailInput: "",
+        emailInputStatus: !state.emailInputStatus
+      }));
+    }
+
+    if (
+      this.state.emailItems.length &&
+      evt.keyCode === 8 &&
+      !this.state.emailInput.length
+    ) {
+      this.setState(state => ({
+        emailItems: state.emailItems.slice(0, state.emailItems.length - 1)
+      }));
+    }
+  }
+  handleRemoveEmailItem(index) {
+    return () => {
+      this.setState(state => ({
+        emailItems: state.emailItems.filter((item, i) => i !== index)
+      }));
+    };
+  }
+
+  handleStateInputChange(evt) {
+    this.setState({ stateInput: evt.target.value });
+  }
+
+  handleStateInputKeyDown(evt) {
+    if (evt.keyCode === 13) {
+      const { value } = evt.target;
+
+      this.setState(state => ({
+        stateItems: [...state.stateItems, value],
+        stateInput: ""
+      }));
+    }
+
+    if (
+      this.state.stateItems.length &&
+      evt.keyCode === 8 &&
+      !this.state.stateInput.length
+    ) {
+      this.setState(state => ({
+        stateItems: state.stateItems.slice(0, state.stateItems.length - 1)
+      }));
+    }
+  }
+
+  handleRemoveStateItem(index) {
+    return () => {
+      this.setState(state => ({
+        stateItems: state.stateItems.filter((item, i) => i !== index)
+      }));
+    };
+  }
+
+  onActiveclassName(index) {
+    let copy = this.state.isButtonActive.slice();
+    copy[index].isActive = !copy[index].isActive;
+    this.setState({ isButtonActive: copy });
+  }
+
+  sendReport(email, product, data) {
+    fetch("http://159.89.106.160/products/sendemail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        to: email,
+        product: product,
+        dates: "26/02/2018 - 29/04/2018",
+        data: data.map((el, i) => {
+          return {
+            name: data[i].bannersName,
+            max: data[i].productsMaxSum,
+            min: data[i].productsMinSum
+          };
+        })
+      })
+    })
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+      });
+  }
+
   render() {
     const { product, handleReport } = this.props;
-    const styles = {
-      container: {
-        border: "1px solid #ddd",
-        padding: "5px",
-        borderRadius: "5px"
-      },
+    const {
+      isButtonActive,
+      stateItems,
+      stateInput,
+      items,
+      input,
+      emailItems,
+      emailInputStatus,
+      emailInput,
+      tableData
+    } = this.state;
 
-      items: {
-        display: "inline-block",
-        padding: "2px",
-        border: "1px solid blue",
-        fontFamily: "Helvetica, sans-serif",
-        borderRadius: "5px",
-        marginRight: "5px",
-        cursor: "pointer"
-      },
-
-      input: {
-        outline: "none",
-        border: "none",
-        fontSize: "14px",
-        fontFamily: "Helvetica, sans-serif"
-      }
-    };
     return (
       <div className="popup">
         <div className="popup_inner">
-          <h4>Create Report</h4>
-          <h5>{product}</h5>
-          <div>
-            <h6>period</h6>
-            <button>x 05/02/2018 -> 20/02/2018</button>
+          <p className="main_head_p">Create Report</p>
+          <p className="product_head_p">{product}</p>
+          <div className="field_block">
+            <p className="field_head_p">Period</p>
+            <button className="btn">x 05/12/2018 -> 20/02/2018</button>
           </div>
-          <div>
-            <h6>state</h6>
+          <div className="field_block">
+            <p className="field_head_p">State</p>
             <label>
-              <ul style={styles.container}>
-                {this.state.items.map((item, i) => (
+              <ul>
+                {stateItems.map((item, i) => (
                   <li
                     key={i}
-                    style={styles.items}
-                    onClick={this.handleRemoveItem(i)}
+                    className="btn"
+                    onClick={this.handleRemoveStateItem(i)}
                   >
-                    {item}
                     <span>(x)</span>
+                    {item}
                   </li>
                 ))}
+
+                {stateItems.length === 0 ? (
+                  <input
+                    value={stateInput}
+                    onChange={this.handleStateInputChange}
+                    onKeyDown={this.handleStateInputKeyDown}
+                  />
+                ) : null}
+              </ul>
+            </label>
+          </div>
+          <div className="field_block city_block">
+            <p className="field_head_p">City</p>
+            <label>
+              <ul>
+                {items.map((item, i) => (
+                  <li
+                    key={i}
+                    className="btn"
+                    onClick={this.handleRemoveItem(i)}
+                  >
+                    <span>(x)</span>
+                    {item}
+                  </li>
+                ))}
+
                 <input
-                  style={styles.input}
-                  value={this.state.input}
+                  value={input}
                   onChange={this.handleInputChange}
                   onKeyDown={this.handleInputKeyDown}
                 />
               </ul>
             </label>
           </div>
-          <div>
-            <h6>city</h6>
+          <div className="field_block">
+            <p className="field_head_p">Sort By</p>
+            <div className="btnField">
+              {isButtonActive.map((el, index) => (
+                <button
+                  key={index}
+                  onClick={() => this.onActiveclassName(index)}
+                  className={`btn ${el.isActive ? "activeBtn" : ""}`}
+                >
+                  {el.name}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="field_block">
+            <p className="field_head_p">Email</p>
             <label>
-              <ul style={styles.container}>
-                {this.state.items.map((item, i) => (
+              <ul>
+                {emailItems.map((item, i) => (
                   <li
                     key={i}
-                    style={styles.items}
-                    onClick={this.handleRemoveItem(i)}
+                    className="btn"
+                    onClick={this.handleRemoveEmailItem(i)}
                   >
-                    {item}
                     <span>(x)</span>
+                    {item}
                   </li>
                 ))}
-                <input
-                  style={styles.input}
-                  value={this.state.input}
-                  onChange={this.handleInputChange}
-                  onKeyDown={this.handleInputKeyDown}
-                />
+                {emailInputStatus ? (
+                  <input
+                    autoFocus
+                    value={emailInput}
+                    onChange={this.handleEmailInputChange}
+                    onKeyDown={this.handleEmailInputKeyDown}
+                  />
+                ) : null}
+
+                <button className="btn" onClick={this.emailInputStatus}>
+                  +
+                </button>
               </ul>
             </label>
           </div>
-          <div>
-            <h6>sort by</h6>
-            <button>name</button>
-            <button>max price</button>
-            <button>average price</button>
-            <button>min price</button>
+          <div className="field_block sendData">
+            <button className="btnCancel" onClick={handleReport}>
+              Cancel
+            </button>
+            <button
+              className="btn"
+              onClick={() => this.sendReport(emailItems, product, tableData)}
+            >
+              Create
+            </button>
           </div>
-          <div>
-            <h6>email</h6>
-            <label>
-              <ul style={styles.container}>
-                {this.state.items.map((item, i) => (
-                  <li
-                    key={i}
-                    style={styles.items}
-                    onClick={this.handleRemoveItem(i)}
-                  >
-                    {item}
-                    <span>(x)</span>
-                  </li>
-                ))}
-                <input
-                  style={styles.input}
-                  value={this.state.input}
-                  onChange={this.handleInputChange}
-                  onKeyDown={this.handleInputKeyDown}
-                />
-                <button>+</button>
-              </ul>
-            </label>
-          </div>
-          <button onClick={handleReport}>close me</button>
-          <button onClick={this.sendReport}>create</button>
         </div>
       </div>
     );

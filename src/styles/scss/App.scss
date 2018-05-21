@@ -13,10 +13,13 @@ p {
 ul {
   list-style-type: none;
 }
+button {
+  cursor: pointer;
+}
 
 .hero_name {
   color: #232323;
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif;
   font-size: 24px;
   font-weight: 600;
   letter-spacing: -0.87px;
@@ -133,8 +136,18 @@ ul {
   width: 100%;
   height: 100%;
   .home {
+    margin-top: 20px;
     .hero_wrapper {
       margin-top: 25px;
+      a {
+        color: #232323;
+        font-family: Montserrat;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.01px;
+        line-height: 15px;
+        text-align: center;
+      }
       .box {
         margin-bottom: 25px;
         box-sizing: border-box;
@@ -150,6 +163,7 @@ ul {
         .box_content {
           text-align: center;
           .p {
+            margin-top: 5px;
             color: #232323;
             font-family: "Montserrat", sans-serif;
             font-size: 12px;
@@ -177,6 +191,12 @@ ul {
 
 .productDetails {
   margin-top: 20px;
+
+  .container {
+    margin: 0px auto;
+    max-width: 1280px;
+  }
+
   th {
     color: rgba(56, 56, 56, 0.4);
     font-family: Montserrat;
@@ -186,6 +206,7 @@ ul {
   }
   .tableCalc {
     margin-top: 20px;
+    box-shadow: 0 4px 16px 0 rgba(87, 89, 159, 0.05);
   }
   td {
     padding: 14px 16px;
@@ -209,15 +230,33 @@ ul {
     display: flex;
     justify-content: space-between;
     margin: 20px 0px;
+    .searchField input {
+      padding: 2px 5px;
+      font-family: "Montserrat", sans-serif;
+      color: #232323;
+      outline: none;
+    }
     .buttons {
       display: flex;
+      .btn {
+        border-radius: 8px;
+        background-color: #504dd4;
+        box-shadow: 0 4px 16px 0 rgba(87, 89, 159, 0.05);
+        color: #ffffff;
+        font-family: "Montserrat", sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 18px;
+        text-align: center;
+        cursor: pointer;
+      }
       .dataPicker {
         margin-right: 20px;
       }
     }
   }
 }
-
+// popup
 .popup {
   position: fixed;
   width: 100%;
@@ -228,13 +267,136 @@ ul {
   bottom: 0;
   margin: auto;
   background-color: rgba(0, 0, 0, 0.5);
+  .popup_inner {
+    padding: 16px 23px;
+    height: auto;
+    width: 592px;
+    margin: 102px auto;
+    background: white;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.1);
+    input {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-right: 8px;
+      padding: 2px 5px;
+      font-family: "Montserrat", sans-serif;
+      color: #232323;
+      outline: none;
+    }
+    .btn {
+      border-radius: 8px;
+      background-color: #91a1df;
+      box-shadow: 0 4px 16px 0 rgba(87, 89, 159, 0.05);
+      color: #ffffff;
+      font-family: Montserrat;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 18px;
+      text-align: center;
+      margin-right: 11px;
+      margin-bottom: 5px;
+    }
+    .field_block {
+      margin-bottom: 16px;
+      .btnField {
+        .btn {
+          margin-right: 6px;
+          border: 1px solid rgba(192, 193, 199, 0.2);
+          border-radius: 8px;
+          box-shadow: 0 4px 16px 0 rgba(87, 89, 159, 0.05);
+          background: #fff;
+          color: rgba(56, 56, 56, 0.4);
+          font-family: Montserrat;
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 18px;
+        }
+        .activeBtn {
+          border-radius: 8px;
+          background-color: #91a1df;
+          box-shadow: 0 4px 16px 0 rgba(87, 89, 159, 0.05);
+          color: #ffffff;
+          font-family: Montserrat;
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 18px;
+          text-align: center;
+        }
+      }
+    }
+    .main_head_p {
+      color: #232323;
+      font-family: Montserrat;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 29px;
+      margin-bottom: 8px;
+    }
+    .product_head_p {
+      margin-bottom: 27px;
+      color: rgba(56, 56, 56, 0.4);
+      font-family: Montserrat;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 22px;
+    }
+    .field_head_p {
+      margin-bottom: 4px;
+      color: rgba(56, 56, 56, 0.4);
+      font-family: Montserrat;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 18px;
+    }
+    .sendData {
+      display: flex;
+      justify-content: flex-end;
+      .btnCancel {
+        color: rgba(56, 56, 56, 0.4);
+        font-family: Montserrat;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 18px;
+        background: transparent;
+        outline: none;
+        border: none;
+        margin-right: 23px;
+      }
+      .btn {
+        background: #504dd4;
+        color: #ffffff;
+        font-family: Montserrat;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 18px;
+      }
+    }
+  }
 }
-.popup_inner {
+
+// createreport
+
+// Loader
+.loader:empty {
   position: absolute;
-  left: 20%;
-  right: 20%;
-  top: 20%;
-  bottom: 20%;
-  margin: auto;
-  background: white;
+  top: calc(50% - 4em);
+  left: calc(50% - 4em);
+  width: 6em;
+  height: 6em;
+  border: 1.1em solid rgba(0, 0, 0, 0.2);
+  border-left: 1.1em solid firebrick;
+  border-radius: 50%;
+  animation: load8 1.1s infinite linear;
+}
+
+@keyframes load8 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

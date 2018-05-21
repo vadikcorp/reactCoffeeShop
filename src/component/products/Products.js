@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import productService from "../common/ProductService";
 import { Context } from "../../App";
 
 const Home = () => {
@@ -19,7 +18,12 @@ const Home = () => {
                         <Link to={`/products/${el.id}`}>
                           <div className="box">
                             <div className="box_content">
-                              <div className="fa fa-coffee" />
+                              <div>
+                                <img
+                                  src={context.coffee[i]}
+                                  alt={context.coffee[i]}
+                                />
+                              </div>
                               <p>{el.name}</p>
                             </div>
                           </div>

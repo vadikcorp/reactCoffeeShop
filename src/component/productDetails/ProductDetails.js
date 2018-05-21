@@ -12,6 +12,8 @@ class productDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: true,
+      data: null,
       tableData: [],
       product: "",
       productsMaxSumTotal: null,
@@ -23,7 +25,8 @@ class productDetails extends Component {
         productsMinSum: "asc",
         productsAverage: "asc"
       },
-      createReport: false
+      createReport: false,
+      productPriceWeek: []
     };
 
     this.storeProductsData = this.storeProductsData.bind(this);
@@ -32,19 +35,31 @@ class productDetails extends Component {
   }
 
   componentDidMount() {
+    setTimeout(() => this.setState({ isLoading: false }), 1500);
     const id = this.props.match.params.id;
     fetch(`http://159.89.106.160/products/${id}`)
       .then(response => response.json())
-      .then(this.storeProductsData);
+      .then(this.storeProductsData)
+      .then(data => this.setState({ data }));
   }
 
-  storeProductsData(data) {
+  storeProductsData(data, productPriceWeekNew) {
     const product = data.product.name;
-    const productsData = data.data;
+    let productsData = data.data;
 
     const bannersName = productsData.map(el => el.banner.name);
+
+    productsData.pricingDataByWeek =
+      productPriceWeekNew || productsData.pricingDataByWeek;
+
     const productPrice = productsData.map(el =>
       el.pricingDataByWeek.map(item => item.price)
+    );
+
+    // array of pricingDataByWeek -> week
+
+    let productPriceWeek = productsData.map(el =>
+      el.pricingDataByWeek.map(item => item.week)
     );
 
     // Array of max/min data
@@ -93,8 +108,12 @@ class productDetails extends Component {
       tableData,
       productsMaxSumTotal,
       productsMinSumTotal,
-      productsAverageTotal
+      productsAverageTotal,
+      productPriceWeek,
+      data
     });
+
+    return data;
   }
 
   onSearchChange(event) {
@@ -121,7 +140,6 @@ class productDetails extends Component {
     this.setState({
       createReport: !this.state.createReport
     });
-    console.log(this.state.createReport);
   }
 
   render() {
@@ -129,25 +147,32 @@ class productDetails extends Component {
       ...this.state,
       onSearchChange: event => this.onSearchChange(event),
       sortBy: key => this.sortBy(key),
-      handleReport: () => this.handleReport()
+      handleReport: () => this.handleReport(),
+      storeProductsData: (data, productPriceWeekNew) =>
+        this.storeProductsData(data, productPriceWeekNew)
     };
+    const { isLoading } = this.state;
+
     return (
       <Context.Provider value={valueObj}>
-        <div className="hero">
-          <div className="productDetails">
-            <div className="container">
-              <ProductHeader />
-              <TableCalc />
-              <ButtonConfiguration />
-              <TableLoad />
-              {this.state.createReport ? (
-                <CreateReport
-                  product={this.state.product}
-                  handleReport={this.handleReport}
-                />
-              ) : null}
+        <div className="hero loader">
+          {!isLoading ? (
+            <div className="productDetails">
+              <div className="container">
+                <ProductHeader />
+                <TableCalc />
+                <ButtonConfiguration />
+                <TableLoad />
+                {this.state.createReport ? (
+                  <CreateReport
+                    product={this.state.product}
+                    handleReport={this.handleReport}
+                    tableData={this.state.tableData}
+                  />
+                ) : null}
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </Context.Provider>
     );

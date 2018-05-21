@@ -6,13 +6,21 @@ import Products from "./component/products/Products";
 import ProductDetails from "./component/productDetails/ProductDetails";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+import americano from "./styles/img/americano.png";
+import cappuccino from "./styles/img/cappuccino.png";
+import doppio from "./styles/img/doppio.png";
+import expresso from "./styles/img/espresso.png";
+import lango from "./styles/img/lango.png";
+import ristretto from "./styles/img/ristretto.png";
+
 export const Context = React.createContext();
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: []
+      products: [],
+      coffee: [americano, cappuccino, doppio, expresso, lango, ristretto]
     };
 
     this.storeProducts = this.storeProducts.bind(this);

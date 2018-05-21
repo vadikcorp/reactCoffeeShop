@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../../styles/img/logo.png";
 
 const Header = () => {
   return (
@@ -6,7 +7,7 @@ const Header = () => {
       <div className="rectangle" />
       <div className="header_bar">
         <div className="header_logo">
-          <img src="../src/styles/img/logo.png" alt="logo" />
+          <img src={logo} alt="logo" />
         </div>
         <div className="header_info">
           <div className="search_icon">
