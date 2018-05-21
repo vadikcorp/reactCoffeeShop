@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TableCalc from "../productDetails/TableCalc";
-import ButtonConfiguration from "../productDetails/ButtonConfiguration";
+import { ButtonConfiguration } from "../productDetails/ButtonConfiguration";
 import TableLoad from "../productDetails/TableLoad";
 import ProductHeader from "../productDetails/ProductHeader";
 
@@ -26,12 +26,16 @@ class productDetails extends Component {
         productsAverage: "asc"
       },
       createReport: false,
-      productPriceWeek: []
+      productPriceWeek: [],
+
+      valueFrom: null,
+      valueTo: null
     };
 
     this.storeProductsData = this.storeProductsData.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.handleReport = this.handleReport.bind(this);
+    this.handleDataPicker = this.handleDataPicker.bind(this);
   }
 
   componentDidMount() {
@@ -137,8 +141,16 @@ class productDetails extends Component {
   }
 
   handleReport() {
+    let status = this.state.createReport;
     this.setState({
-      createReport: !this.state.createReport
+      createReport: !status
+    });
+  }
+
+  handleDataPicker(valueFrom, valueTo) {
+    this.setState({
+      valueFrom: valueFrom,
+      valueTo: valueTo
     });
   }
 
@@ -148,6 +160,8 @@ class productDetails extends Component {
       onSearchChange: event => this.onSearchChange(event),
       sortBy: key => this.sortBy(key),
       handleReport: () => this.handleReport(),
+      handleDataPicker: (valueFrom, valueTo) =>
+        this.handleDataPicker(valueFrom, valueTo),
       storeProductsData: (data, productPriceWeekNew) =>
         this.storeProductsData(data, productPriceWeekNew)
     };
@@ -168,6 +182,8 @@ class productDetails extends Component {
                     product={this.state.product}
                     handleReport={this.handleReport}
                     tableData={this.state.tableData}
+                    valueFrom={this.state.valueFrom}
+                    valueTo={this.state.valueTo}
                   />
                 ) : null}
               </div>

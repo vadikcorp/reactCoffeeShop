@@ -156,7 +156,8 @@ button {
     font-family: Montserrat;
     font-size: 14px;
     font-weight: 600;
-    line-height: 18px; }
+    line-height: 18px;
+    cursor: pointer; }
   .productDetails .tableCalc {
     margin-top: 20px;
     box-shadow: 0 4px 16px 0 rgba(87, 89, 159, 0.05); }

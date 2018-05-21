@@ -1,4 +1,7 @@
 import React from "react";
+import { SelectForm } from "../productDetails/ButtonConfiguration";
+
+export const Context = React.createContext();
 
 class CreateReport extends React.Component {
   constructor(props) {
@@ -147,7 +150,7 @@ class CreateReport extends React.Component {
     this.setState({ isButtonActive: copy });
   }
 
-  sendReport(email, product, data) {
+  sendReport(email, product, data, valueFrom, valueTo) {
     fetch("http://159.89.106.160/products/sendemail", {
       method: "POST",
       headers: {
@@ -157,7 +160,7 @@ class CreateReport extends React.Component {
       body: JSON.stringify({
         to: email,
         product: product,
-        dates: "26/02/2018 - 29/04/2018",
+        dates: `${valueFrom} ${valueTo}`,
         data: data.map((el, i) => {
           return {
             name: data[i].bannersName,
@@ -174,7 +177,7 @@ class CreateReport extends React.Component {
   }
 
   render() {
-    const { product, handleReport } = this.props;
+    const { product, handleReport, valueFrom, valueTo } = this.props;
     const {
       isButtonActive,
       stateItems,
@@ -188,118 +191,132 @@ class CreateReport extends React.Component {
     } = this.state;
 
     return (
-      <div className="popup">
-        <div className="popup_inner">
-          <p className="main_head_p">Create Report</p>
-          <p className="product_head_p">{product}</p>
-          <div className="field_block">
-            <p className="field_head_p">Period</p>
-            <button className="btn">x 05/12/2018 -> 20/02/2018</button>
-          </div>
-          <div className="field_block">
-            <p className="field_head_p">State</p>
-            <label>
-              <ul>
-                {stateItems.map((item, i) => (
-                  <li
-                    key={i}
-                    className="btn"
-                    onClick={this.handleRemoveStateItem(i)}
-                  >
-                    <span>(x)</span>
-                    {item}
-                  </li>
-                ))}
+      <Context.Consumer>
+        {context => {
+          return (
+            <div className="popup">
+              <div className="popup_inner">
+                <p className="main_head_p">Create Report</p>
+                <p className="product_head_p">{product}</p>
+                <div className="field_block">
+                  <p className="field_head_p">Period</p>
+                  <SelectForm />
+                </div>
+                <div className="field_block">
+                  <p className="field_head_p">State</p>
+                  <label>
+                    <ul>
+                      {stateItems.map((item, i) => (
+                        <li
+                          key={i}
+                          className="btn"
+                          onClick={this.handleRemoveStateItem(i)}
+                        >
+                          <span>(x)</span>
+                          {item}
+                        </li>
+                      ))}
 
-                {stateItems.length === 0 ? (
-                  <input
-                    value={stateInput}
-                    onChange={this.handleStateInputChange}
-                    onKeyDown={this.handleStateInputKeyDown}
-                  />
-                ) : null}
-              </ul>
-            </label>
-          </div>
-          <div className="field_block city_block">
-            <p className="field_head_p">City</p>
-            <label>
-              <ul>
-                {items.map((item, i) => (
-                  <li
-                    key={i}
-                    className="btn"
-                    onClick={this.handleRemoveItem(i)}
-                  >
-                    <span>(x)</span>
-                    {item}
-                  </li>
-                ))}
+                      {stateItems.length === 0 ? (
+                        <input
+                          value={stateInput}
+                          onChange={this.handleStateInputChange}
+                          onKeyDown={this.handleStateInputKeyDown}
+                        />
+                      ) : null}
+                    </ul>
+                  </label>
+                </div>
+                <div className="field_block city_block">
+                  <p className="field_head_p">City</p>
+                  <label>
+                    <ul>
+                      {items.map((item, i) => (
+                        <li
+                          key={i}
+                          className="btn"
+                          onClick={this.handleRemoveItem(i)}
+                        >
+                          <span>(x)</span>
+                          {item}
+                        </li>
+                      ))}
 
-                <input
-                  value={input}
-                  onChange={this.handleInputChange}
-                  onKeyDown={this.handleInputKeyDown}
-                />
-              </ul>
-            </label>
-          </div>
-          <div className="field_block">
-            <p className="field_head_p">Sort By</p>
-            <div className="btnField">
-              {isButtonActive.map((el, index) => (
-                <button
-                  key={index}
-                  onClick={() => this.onActiveclassName(index)}
-                  className={`btn ${el.isActive ? "activeBtn" : ""}`}
-                >
-                  {el.name}
-                </button>
-              ))}
+                      <input
+                        value={input}
+                        onChange={this.handleInputChange}
+                        onKeyDown={this.handleInputKeyDown}
+                      />
+                    </ul>
+                  </label>
+                </div>
+                <div className="field_block">
+                  <p className="field_head_p">Sort By</p>
+                  <div className="btnField">
+                    {isButtonActive.map((el, index) => (
+                      <button
+                        key={index}
+                        onClick={() => this.onActiveclassName(index)}
+                        className={`btn ${el.isActive ? "activeBtn" : ""}`}
+                      >
+                        {el.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="field_block">
+                  <p className="field_head_p">Email</p>
+                  <label>
+                    <ul>
+                      {emailItems.map((item, i) => (
+                        <li
+                          key={i}
+                          className="btn"
+                          onClick={this.handleRemoveEmailItem(i)}
+                        >
+                          <span>(x)</span>
+                          {item}
+                        </li>
+                      ))}
+                      {emailInputStatus ? (
+                        <input
+                          autoFocus
+                          value={emailInput}
+                          onChange={this.handleEmailInputChange}
+                          onKeyDown={this.handleEmailInputKeyDown}
+                        />
+                      ) : null}
+
+                      <button className="btn" onClick={this.emailInputStatus}>
+                        +
+                      </button>
+                    </ul>
+                  </label>
+                </div>
+                <div className="field_block sendData">
+                  <button className="btnCancel" onClick={handleReport}>
+                    Cancel
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() =>
+                      this.sendReport(
+                        emailItems,
+                        product,
+                        tableData,
+                        valueFrom,
+                        valueTo
+                      )
+                    }
+                  >
+                    Create
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="field_block">
-            <p className="field_head_p">Email</p>
-            <label>
-              <ul>
-                {emailItems.map((item, i) => (
-                  <li
-                    key={i}
-                    className="btn"
-                    onClick={this.handleRemoveEmailItem(i)}
-                  >
-                    <span>(x)</span>
-                    {item}
-                  </li>
-                ))}
-                {emailInputStatus ? (
-                  <input
-                    autoFocus
-                    value={emailInput}
-                    onChange={this.handleEmailInputChange}
-                    onKeyDown={this.handleEmailInputKeyDown}
-                  />
-                ) : null}
-
-                <button className="btn" onClick={this.emailInputStatus}>
-                  +
-                </button>
-              </ul>
-            </label>
-          </div>
-          <div className="field_block sendData">
-            <button className="btnCancel" onClick={handleReport}>
-              Cancel
-            </button>
-            <button
-              className="btn"
-              onClick={() => this.sendReport(emailItems, product, tableData)}
-            >
-              Create
-            </button>
-          </div>
-        </div>
-      </div>
+          );
+        }}
+      </Context.Consumer>
     );
   }
 }
